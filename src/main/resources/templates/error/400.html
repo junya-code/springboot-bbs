@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ja" layout:decorate="~{layout/layout}">
+  <head>
+    <meta
+      name="description"
+      layout:fragment="description"
+      th:content="#{error.badrequest.meta.description}"
+    />
+    <title layout:fragment="title">Bad Request</title>
+  </head>
+
+  <body>
+    <main layout:fragment="content" class="container mt-5">
+      <div class="text-center">
+        <h1 class="mb-4">400 - Bad Request</h1>
+
+        <p class="mb-4" th:text="${errorMessage}">Bad request.</p>
+
+        <a th:href="@{/posts}" class="btn btn-primary">Back to Home</a>
+      </div>
+    </main>
+  </body>
+</html>

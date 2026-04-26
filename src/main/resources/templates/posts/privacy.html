@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja" layout:decorate="~{layout/layout}">
+  <head>
+    <meta
+      name="description"
+      layout:fragment="description"
+      th:content="#{privacy.meta.description}"
+    />
+    <title layout:fragment="title" th:text="#{privacy.title}"></title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <!-- 導入文 -->
+      <p class="preline" th:text="#{privacy.intro}"></p>
+
+      <!-- 1. 取得する情報 -->
+      <h2 th:text="#{privacy.section1.title}"></h2>
+      <p class="preline" th:text="#{privacy.section1.body}"></p>
+
+      <!-- 2. 利用目的 -->
+      <h2 th:text="#{privacy.section2.title}"></h2>
+      <p class="preline" th:text="#{privacy.section2.body}"></p>
+
+      <!-- 3. 保存期間 -->
+      <h2 th:text="#{privacy.section3.title}"></h2>
+      <p class="preline" th:text="#{privacy.section3.body}"></p>
+
+      <!-- 4. 第三者提供 -->
+      <h2 th:text="#{privacy.section4.title}"></h2>
+      <p class="preline" th:text="#{privacy.section4.body}"></p>
+
+      <!-- 5. セキュリティ対策 -->
+      <h2 th:text="#{privacy.section5.title}"></h2>
+      <p class="preline" th:text="#{privacy.section5.body}"></p>
+
+      <!-- 6. ユーザーの権利 -->
+      <h2 th:text="#{privacy.section6.title}"></h2>
+      <p class="preline" th:text="#{privacy.section6.body}"></p>
+
+      <!-- 7. プライバシーポリシーの変更 -->
+      <h2 th:text="#{privacy.section7.title}"></h2>
+      <p class="preline" th:text="#{privacy.section7.body}"></p>
+
+      <!-- フッター -->
+      <p class="preline" th:text="#{privacy.footer}"></p>
+    </main>
+  </body>
+</html>

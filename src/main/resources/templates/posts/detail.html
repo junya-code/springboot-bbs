@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ja" layout:decorate="~{layout/layout}">
+  <head>
+    <title layout:fragment="title" th:text="#{post.detail.title}"></title>
+  </head>
+
+  <body>
+    <main layout:fragment="content">
+      <div class="border rounded p-4 mt-2">
+        <h1 th:text="${post.title}" class="mb-3"></h1>
+
+        <p th:text="${post.content}" style="white-space: pre-wrap; word-break: break-word"></p>
+
+        <hr style="margin: 1.2rem 0; border-top: 1px solid #ccc" />
+
+        <p
+          th:if="${edited}"
+          class="text-muted"
+          style="font-size: 0.9rem; margin-top: -0.5rem"
+          th:with="fmt=#{post.lastUpdated.format}"
+        >
+          <span th:text="#{post.lastUpdated}"></span>
+          <span th:text="${#temporals.format(lastEditedAt, fmt)}"></span>
+        </p>
+
+        <p>
+          <span id="like-count" th:text="${likeInfo.likeCount}"></span>
+          <span th:text="#{like.count.suffix}"></span>
+        </p>
+
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <a th:href="@{/posts}" class="btn btn-dark">Back To List</a>
+
+          <!-- 権限がある場合 -->
+          <div th:if="${post.user != null and loggedInUserId == post.user.id}">
+            <a th:href="@{/posts/{id}/edit(id=${post.id})}" class="btn btn-primary me-1">Edit</a>
+
+            <form
+              th:action="@{/posts/{id}/delete(id=${post.id})}"
+              method="post"
+              style="display: inline"
+            >
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </div>
+
+          <!-- 権限がない場合 -->
+          <div th:if="${post.user != null and loggedInUserId != post.user.id}">
+            <button class="btn btn-secondary" style="pointer-events: none; opacity: 0.6">
+              Edit
+            </button>
+            <button class="btn btn-secondary" style="pointer-events: none; opacity: 0.6">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex mt-2" style="position: relative">
+        <button id="like-button" class="btn btn-danger" th:data-post-id="${post.id}">
+          <i
+            id="like-icon"
+            th:class="${likeInfo.isLiked ? 'bi bi-emoji-heart-eyes' : 'bi bi-emoji-expressionless'}"
+          ></i>
+        </button>
+        <div>
+          <div id="flash" class="flash mt-1"></div>
+        </div>
+      </div>
+
+      <h2 class="mt-2">Comments</h2>
+      <div class="mb-3">
+        <div th:each="comment : ${comments}">
+          <div class="card mb-3">
+            <div class="card-header">
+              <strong th:text="${comment.user.username}">Username</strong>
+              <small
+                class="text-muted ml-2"
+                th:text="${#temporals.format(comment.createdAt, 'yyyy/MM/dd HH:mm:ss')}"
+                >Date</small
+              >
+            </div>
+            <div
+              class="card-body"
+              style="white-space: pre-wrap; word-break: break-word"
+              th:text="${comment.content}"
+            >
+              Comment content
+            </div>
+            <div class="card-footer">
+              <div th:if="${comment.user != null and loggedInUserId == comment.user.id}">
+                <form
+                  th:action="@{|/posts/${post.id}/comments/${comment.id}/delete|}"
+                  method="post"
+                >
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▼▼ コメントページネーション ▼▼ -->
+      <nav aria-label="Comment navigation" th:if="${comments.totalPages > 1}">
+        <ul class="pagination justify-content-center">
+          <li th:class="${comments.number == 0 ? 'page-item disabled' : 'page-item'}">
+            <!-- Thymeleaf の リテラル置換で読みやすくしている。 -->
+            <!-- th:href="@{'/posts/' + ${post.id} + '?page=' + (${comments.number - 1})}"と同じ意味。 -->
+            <a class="page-link" th:href="@{|/posts/${post.id}?page=${comments.number - 1}|}">
+              Previous
+            </a>
+          </li>
+
+          <li
+            th:each="i : ${#numbers.sequence(0, comments.totalPages - 1)}"
+            th:class="${i == comments.number ? 'page-item active' : 'page-item'}"
+          >
+            <a class="page-link" th:href="@{|/posts/${post.id}?page=${i}|}" th:text="${i + 1}"> </a>
+          </li>
+
+          <li
+            th:class="${comments.number + 1 >= comments.totalPages ? 'page-item disabled' : 'page-item'}"
+          >
+            <a class="page-link" th:href="@{|/posts/${post.id}?page=${comments.number + 1}|}">
+              Next
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- ▲▲ コメントページネーション ▲▲ -->
+
+      <h3>Add a Comment</h3>
+      <form
+        th:action="@{|/posts/${post.id}/comments/create|}"
+        method="post"
+        th:object="${commentForm}"
+      >
+        <input type="hidden" name="postId" th:value="${post.id}" />
+        <div class="mb-3">
+          <label for="content" class="visually-hidden">Comment</label>
+          <textarea
+            name="content"
+            id="content"
+            class="form-control"
+            rows="3"
+            th:placeholder="#{post.form.content.placeholder}"
+            th:field="*{content}"
+          ></textarea>
+          <div th:errors="*{content}" class="text-danger"></div>
+        </div>
+
+        <!-- ハニーポット（BOT が入力してしまう偽フィールド） -->
+        <div style="display: none">
+          <label>Leave this field empty</label>
+          <input type="text" name="hp_field" autocomplete="off" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Add Comment</button>
+      </form>
+    </main>
+  </body>
+</html>

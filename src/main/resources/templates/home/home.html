@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ja" layout:decorate="~{layout/layout}">
+  <head>
+    <title layout:fragment="title" th:text="#{top.title}"></title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <h1 class="text-center mt-4 mb-4" th:text="#{home.title}"></h1>
+      <div class="text-center">
+        <a th:href="@{/auth/login}" class="btn btn-primary">Login</a>
+        <a th:href="@{/auth/register}" class="btn btn-dark">Sign up</a>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ja" layout:decorate="~{layout/layout}">
+  <head>
+    <meta name="description" layout:fragment="description" th:content="#{login.meta.description}" />
+    <title layout:fragment="title" th:text="#{admin.users.title}"></title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>名前</th>
+          <th>操作</th>
+        </tr>
+        <tr th:each="user : ${users}">
+          <td th:text="${user.id}"></td>
+          <td th:text="${user.username}"></td>
+          <td>
+            <form method="post" th:action="@{'/admin/users/' + ${user.id} + '/delete'}">
+              <button type="submit">削除</button>
+            </form>
+          </td>
+        </tr>
+      </table>
+    </main>
+  </body>
+</html>

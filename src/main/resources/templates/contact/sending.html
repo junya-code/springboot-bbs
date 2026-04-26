@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ja" layout:decorate="~{layout/layout}">
+  <head>
+    <meta
+      name="description"
+      layout:fragment="description"
+      th:content="#{contact.sending.meta.description}"
+    />
+    <title layout:fragment="title" th:text="#{contact.sending.title}"></title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <div class="mt-5 text-center">
+        <h1 class="mb-4">お問い合わせありがとうございました。</h1>
+        <p>
+          重複したリクエストを受け取りました。 現在、最初のお問い合わせを処理しています。
+          数分以内に確認メールが届かない場合は、 お手数ですが再度お問い合わせをお願いいたします。
+        </p>
+        <a th:href="@{/posts}" class="btn btn-primary">トップページへ戻る</a>
+      </div>
+    </main>
+  </body>
+</html>

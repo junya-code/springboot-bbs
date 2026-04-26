@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja" layout:decorate="~{layout/layout}">
+  <head>
+    <meta
+      name="description"
+      layout:fragment="description"
+      th:content="#{contact.confirm.meta.description}"
+    />
+    <title layout:fragment="title" th:text="#{contact.confirm.title}"></title>
+  </head>
+
+  <body>
+    <main layout:fragment="content" class="py-5">
+      <div class="container" style="max-width: 720px">
+        <!-- タイトル -->
+        <div class="text-center mb-4">
+          <h1 class="fw-bold" th:text="#{contact.confirm.heading}"></h1>
+          <p class="text-muted mt-2" th:text="#{contact.confirm.description}"></p>
+        </div>
+
+        <div class="card border-2 shadow-sm" style="border-color: #b8b8b8; border-radius: 0.6rem">
+          <div class="card-body p-4">
+            <!-- 表示専用：外側にフォームを置かない -->
+            <div class="mb-4 pb-3" style="border-bottom: 2px solid #e0e0e0">
+              <label
+                class="form-label text-muted small"
+                th:text="#{contact.form.name.label}"
+              ></label>
+              <p th:text="${contactForm.name}" class="fs-5 mb-0"></p>
+            </div>
+
+            <div class="mb-4 pb-3" style="border-bottom: 2px solid #e0e0e0">
+              <label
+                class="form-label text-muted small"
+                th:text="#{contact.form.email.label}"
+              ></label>
+              <p th:text="${contactForm.email}" class="fs-5 mb-0"></p>
+            </div>
+
+            <div class="mb-4 pb-3" style="border-bottom: 2px solid #e0e0e0">
+              <label
+                class="form-label text-muted small"
+                th:text="#{contact.form.message.label}"
+              ></label>
+              <p
+                th:text="${contactForm.message}"
+                class="fs-6 mb-0"
+                style="white-space: pre-wrap; word-break: break-word"
+              ></p>
+            </div>
+
+            <!-- ボタン行 -->
+            <div class="d-flex justify-content-between mt-4">
+              <!-- 戻る（POST /contact） -->
+              <form th:action="@{/contact}" method="post">
+                <button
+                  type="submit"
+                  class="btn btn-outline-secondary px-4"
+                  th:text="#{contact.confirm.back}"
+                ></button>
+              </form>
+
+              <!-- 送信（POST /contact/submit） -->
+              <form th:action="@{/contact/submit}" th:object="${contactForm}" method="post">
+                <!-- ハニーポット -->
+                <div style="display: none">
+                  <input type="text" name="hp_field" autocomplete="off" />
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary px-4"
+                  th:text="#{contact.confirm.submit}"
+                ></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

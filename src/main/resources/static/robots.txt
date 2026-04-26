@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /auth/
+Disallow: /contact/confirm
+Disallow: /contact/sending
+Disallow: /contact/complete
+Allow: /
+
+Sitemap: https://junya-code.com/sitemap.xml

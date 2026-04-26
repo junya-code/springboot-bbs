@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ja" layout:decorate="~{layout/layout}">
+  <head>
+    <meta
+      name="description"
+      layout:fragment="description"
+      th:content="#{contact.complete.meta.description}"
+    />
+    <title layout:fragment="title" th:text="#{contact.complete.title}"></title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <div class="mt-5 text-center">
+        <h1 class="mb-4" th:text="#{contact.complete.heading}"></h1>
+        <p th:text="#{contact.complete.description}"></p>
+        <a th:href="@{/posts}" class="btn btn-primary" th:text="#{contact.complete.backToTop}"> </a>
+      </div>
+    </main>
+  </body>
+</html>
