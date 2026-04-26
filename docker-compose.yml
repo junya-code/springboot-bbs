@@ -36,8 +36,12 @@ services:
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: true
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: true
       HMAC_SECRET: ${HMAC_SECRET}
-
+    volumes:
+      - ./logs:/app/logs
+      
 volumes:
   db-data:
     external: true
     name: bbs_db-data
+  logs:
+
