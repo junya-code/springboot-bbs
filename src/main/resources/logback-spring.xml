@@ -14,7 +14,7 @@
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/app.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-            <maxHistory>7</maxHistory>
+            <maxHistory>90</maxHistory>
         </rollingPolicy>
 
         <encoder>
