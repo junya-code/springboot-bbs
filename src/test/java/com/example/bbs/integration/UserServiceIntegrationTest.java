@@ -4,6 +4,7 @@ import com.example.bbs.dto.UserRegisterForm;
 import com.example.bbs.infrastructure.UserActionLogCleanupEventInitializer;
 import com.example.bbs.infrastructure.UserSessionCleanupEventInitializer;
 import com.example.bbs.model.User;
+import com.example.bbs.service.EmailService;
 import com.example.bbs.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,9 @@ public class UserServiceIntegrationTest {
 
     @MockitoBean
     private UserSessionCleanupEventInitializer userSessionCleanupEventInitializer;
+
+    @MockitoBean
+    private EmailService emailService;
 
     @Test
     @DisplayName("ユーザー登録：Form経由で正しく保存されること")
