@@ -1,18 +1,16 @@
 name: Deploy to EC2 (Docker)
 
 on:
-  push:
-    branches:
-      - main
-
-permissions:
-  contents: read
+  workflow_run:
+    workflows: ["CodeQL"]
+    types:
+      - completed
+  workflow_dispatch:
 
 jobs:
   deploy:
-    needs: analyze   # ← CodeQL が成功しないと deploy が動かない
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
-
 
     steps:
       - name: Checkout source
@@ -28,12 +26,10 @@ jobs:
         run: chmod +x mvnw
 
       - name: Run tests
-        run: |
-          ./mvnw -B test
+        run: ./mvnw -B test
 
       - name: Build jar
-        run: |
-          ./mvnw -B clean package -DskipTests
+        run: ./mvnw -B clean package -DskipTests
 
       - name: Create .env.prod for Deployment
         run: |
@@ -49,7 +45,6 @@ jobs:
           echo "SPRING_MAIL_PASSWORD=${{ secrets.SPRING_MAIL_PASSWORD }}" >> .env.prod
           echo "HMAC_SECRET=${{ secrets.HMAC_SECRET }}" >> .env.prod
 
-
       - name: Add SSH key
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -64,21 +59,12 @@ jobs:
             -e "ssh -o StrictHostKeyChecking=no" \
             ./ \
             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ secrets.EC2_APP_DIR }}/
-            
+
       - name: Restart Docker on EC2
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          echo "=== SSH connected ==="
           cd ${{ secrets.EC2_APP_DIR }}
-          pwd
-          ls -la
-
-          echo "=== docker-compose down ==="
           docker-compose --env-file .env.prod down
-
-          echo "=== docker-compose build --no-cache ==="
           docker-compose --env-file .env.prod build --no-cache
-
-          echo "=== docker-compose up -d ==="
           docker-compose --env-file .env.prod up -d
           EOF
