@@ -11,7 +11,7 @@
 - Nginx によるリバースプロキシ設定
 - Certbot による SSL/TLS（HTTPS）化
 - 環境変数による機密情報管理（メール送信設定など）
-- Docker運用
+- Docker,CI/CD運用
 - アプリログの監視・運用
 
 
