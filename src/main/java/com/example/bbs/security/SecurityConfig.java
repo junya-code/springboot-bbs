@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.example.bbs.config.BrowserSessionFilter;
+import com.example.bbs.config.CookieProperties;
 import com.example.bbs.service.UserSessionService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +33,8 @@ public class SecurityConfig {
 
         @Bean
         public BrowserSessionFilter browserSessionFilter(UserSessionService s, CookieSigner cs,
-                        CookieSignatureValidator v) {
-                return new BrowserSessionFilter(s, cs, v);
+                        CookieSignatureValidator v, CookieProperties cp) {
+                return new BrowserSessionFilter(s, cs, v, cp);
         }
 
         @Bean

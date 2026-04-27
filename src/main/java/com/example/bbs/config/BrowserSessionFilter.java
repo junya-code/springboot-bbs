@@ -32,13 +32,18 @@ public class BrowserSessionFilter extends OncePerRequestFilter {
     private final UserSessionService userSessionService;
     private final CookieSigner cookieSigner;
     private final CookieSignatureValidator validator;
+    private final CookieProperties cookieProperties;
 
-    public BrowserSessionFilter(UserSessionService userSessionService,
+    public BrowserSessionFilter(
+            UserSessionService userSessionService,
             CookieSigner cookieSigner,
-            CookieSignatureValidator validator) {
+            CookieSignatureValidator validator,
+            CookieProperties cookieProperties) {
+
         this.userSessionService = userSessionService;
         this.cookieSigner = cookieSigner;
         this.validator = validator;
+        this.cookieProperties = cookieProperties;
     }
 
     // 静的ファイル・OPTIONS・エラー はログ対象外
@@ -100,6 +105,7 @@ public class BrowserSessionFilter extends OncePerRequestFilter {
         Cookie cookie = new Cookie(CookieConfig.BROWSER_SESSION_COOKIE_NAME, newSignedValue);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
+        cookie.setSecure(cookieProperties.secure());// ★ HTTPS のみで送信
         cookie.setMaxAge(CookieConfig.BROWSER_SESSION_MAX_AGE); // ← クライアント側の Cookie の寿命を設定
         response.addCookie(cookie);
 
