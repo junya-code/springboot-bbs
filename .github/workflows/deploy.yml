@@ -10,7 +10,9 @@ permissions:
 
 jobs:
   deploy:
+    needs: analyze   # ← CodeQL が成功しないと deploy が動かない
     runs-on: ubuntu-latest
+
 
     steps:
       - name: Checkout source
