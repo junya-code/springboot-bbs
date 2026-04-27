@@ -60,8 +60,7 @@ public class UserServiceIntegrationTest {
         form.setPassword("pass");
         User user = userService.registerUser(form);
 
-        // 2. 実行：Serviceのメソッドを複数回呼ぶ（設定値の回数分）
-        // SpamConfig.LOGIN_FAIL_THRESHOLD が 3 と仮定して3回
+        // 2. 実行：Serviceのメソッドを複数回呼ぶ
         userService.increaseLoginFail(user.getId());
         userService.increaseLoginFail(user.getId());
         userService.increaseLoginFail(user.getId());
