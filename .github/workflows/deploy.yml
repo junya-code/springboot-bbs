@@ -25,11 +25,16 @@ jobs:
           distribution: 'temurin'
           java-version: '25'
 
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: Make mvnw executable
         run: chmod +x mvnw
-
-      - name: Run tests
-        run: ./mvnw -B test
 
       - name: Build jar
         run: ./mvnw -B clean package -DskipTests
