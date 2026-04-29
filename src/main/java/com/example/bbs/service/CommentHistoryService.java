@@ -17,11 +17,11 @@ public class CommentHistoryService {
         this.repo = repo;
     }
 
-    public void saveDeleteHistory(Comment comment, String oldContent, Long deletedBy) {
+    public void saveDeleteHistory(Comment comment, Long deletedBy) {
         CommentHistory history = new CommentHistory();
         history.setCommentId(comment.getId());
         history.setCommentAuthorId(comment.getUser().getId());
-        history.setOldContent(oldContent);
+        history.setOldContent(comment.getContent());
         history.setDeletedAt(LocalDateTime.now());
         history.setDeletedBy(deletedBy);
 

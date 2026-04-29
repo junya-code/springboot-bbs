@@ -135,7 +135,7 @@ public class UserService {
             // ユーザーが書いたコメント
             List<Comment> userComments = commentService.findByUserId(targetUserId);
             for (Comment comment : userComments) {
-                commentHistoryService.saveDeleteHistory(comment, comment.getContent(), adminId);
+                commentHistoryService.saveDeleteHistory(comment, adminId);
                 commentRepository.delete(comment);
             }
 
@@ -154,7 +154,7 @@ public class UserService {
                 List<Comment> comments = commentService.getAllComments(post.getId());
                 for (Comment comment : comments) {
                     if (!comment.getUser().getId().equals(targetUserId)) {
-                        commentHistoryService.saveDeleteHistory(comment, comment.getContent(), adminId);
+                        commentHistoryService.saveDeleteHistory(comment, adminId);
                         commentRepository.delete(comment);
                     }
                 }

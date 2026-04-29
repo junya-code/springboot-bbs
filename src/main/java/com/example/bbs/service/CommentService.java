@@ -133,8 +133,7 @@ public class CommentService {
                 throw new AccessDeniedException("Not authorized");
             }
 
-            String oldContent = comment.getContent();
-            commentHistoryService.saveDeleteHistory(comment, oldContent, user.getId());
+            commentHistoryService.saveDeleteHistory(comment, user.getId());
 
             commentRepository.delete(comment);
 
