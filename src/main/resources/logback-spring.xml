@@ -8,7 +8,6 @@
         </encoder>
     </appender>
 
-    <!-- ファイル出力（1日1ファイル、7日保持） -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/app.log</file>
 
