@@ -41,6 +41,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Like> likes = new HashSet<>();
 
+    // enum を JPA で保存するときは 必ず @Enumerated(EnumType.STRING)
+    // を付けないと ORDINAL（数字）保存になってしまうので必須
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role = Role.ROLE_USER;
