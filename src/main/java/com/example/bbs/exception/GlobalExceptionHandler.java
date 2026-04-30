@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.NoSuchElementException;
 
@@ -41,6 +42,14 @@ public class GlobalExceptionHandler {
     public String handleNotFound(NoSuchElementException e, Model model) {
         log.warn("Resource not found", e); // ★ログには詳細
         model.addAttribute("errorMessage", "指定されたデータは見つかりませんでした。");
+        return "error/404";
+    }
+
+    // 静的リソースは warn ではなく debug にするのが自然
+    // （ログ汚染を避けるため）
+    @ExceptionHandler(NoResourceFoundException.class)
+    public String handleStaticResourceNotFound(NoResourceFoundException e, Model model) {
+        log.debug("Static resource not found: {}", e.getResourcePath());
         return "error/404";
     }
 
