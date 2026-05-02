@@ -130,6 +130,6 @@ public class FilterConfig {
 // 12 ExceptionTranslationFilter後ろでエラー（認証・認可不足）が起きたとき、
 // ログイン画面へ飛ばす等の後始末役。
 
-// 13 uthorizationFilter【最終門番】
+// 13 AuthorizationFilter【最終門番】
 // SecurityConfig で書いた requestMatchers("/auth/login").permitAll() などの
 // ルールに基づき、通していいか最終判断する。

@@ -23,8 +23,7 @@ public class WebConfig {
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames(
-                "classpath:messages",
-                "classpath:ValidationMessages");
+                "classpath:messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
