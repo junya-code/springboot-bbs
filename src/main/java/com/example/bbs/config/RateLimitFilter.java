@@ -28,6 +28,8 @@ public class RateLimitFilter implements Filter {
     // ConcurrentHashMap のような共有オブジェクトは必ずヒープ。
 
     // UUIDごとの直近1秒のリクエスト数
+    // HashMap は「並列アクセスを前提に作られていない」ため、synchronizedする時は
+    // ConcurrentHashMapを使う
     private final Map<String, RequestCounter> requestCounters = new ConcurrentHashMap<>();
 
     // BANされたUUIDと解除時刻
