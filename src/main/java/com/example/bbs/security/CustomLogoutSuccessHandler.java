@@ -16,7 +16,6 @@ import com.example.bbs.util.CookieUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @Component
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
@@ -35,8 +34,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
             HttpServletResponse response,
             Authentication authentication)
             throws IOException, ServletException {
-
-        HttpSession session = request.getSession(false);
 
         if (authentication != null) {
 
@@ -68,10 +65,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
                     ActionType.LOGOUT,
                     HttpMethodType.POST, // ← ログアウトは必ず POST
                     botStatus);
-        }
-
-        if (session != null) {
-            session.invalidate();
         }
 
         response.sendRedirect("/auth/login?logout");
