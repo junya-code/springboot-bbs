@@ -47,18 +47,6 @@ public class SpamCheckService {
         lockMap.remove(sessionId);
     }
 
-    // ★ ロック後に SEND_CONTACT が発生したか
-    public boolean hasContactLog(String sessionId) {
-        LocalDateTime lockStartedAt = lockMap.get(sessionId);
-        if (lockStartedAt == null)
-            return false;
-
-        return repo.countActionAfter(
-                sessionId,
-                ActionType.SEND_CONTACT,
-                lockStartedAt) > 0;
-    }
-
     public boolean isPostCreateSpam(Long userId) {
         long count = userActionLogService.countRecentAction(
                 userId,

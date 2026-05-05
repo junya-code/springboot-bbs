@@ -136,11 +136,6 @@ public class ContactController {
             return "redirect:/contact/sending";
         }
 
-        if (spamCheckService.isLocked(sessionId)) {
-            log.info("Request locked: sessionId={}", sessionId);
-            return "redirect:/contact/sending";
-        }
-
         // ★ ロックセット
         spamCheckService.lock(sessionId);
 
