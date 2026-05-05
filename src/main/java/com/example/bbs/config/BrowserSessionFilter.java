@@ -106,9 +106,12 @@ public class BrowserSessionFilter extends OncePerRequestFilter {
         cookie.setPath("/");
         cookie.setHttpOnly(true);
 
+        // この Cookie は HTTPS 通信でしか送らないでね」というブラウザへの指示
+        // 動作上は application.properties の cookie.secure=true だけで十分だが
+        // CodeQL が確実に理解できるように secure 設定を明示している
         if (cookieProperties.secure()) {
             cookie.setSecure(true);
-        } // ★ HTTPS のみで送信,CodeQL が確実に理解できる secure 設定
+        }
 
         cookie.setMaxAge(CookieConfig.BROWSER_SESSION_MAX_AGE); // ← クライアント側の Cookie の寿命を設定
         response.addCookie(cookie);
