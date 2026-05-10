@@ -54,7 +54,7 @@ public class SecurityConfig {
                         throws Exception {
                 http
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/", "/auth/register", "/auth/login", "/contact/**",
+                                                .requestMatchers("/", "/auth/register", "/contact/**",
                                                                 "/posts/privacy", "/posts/terms",
                                                                 "/css/**", "/js/**", "/images/**", "/favicon.ico",
                                                                 "/error", "/robots.txt")
