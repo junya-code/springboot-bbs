@@ -13,14 +13,17 @@
 
         <hr style="margin: 1.2rem 0; border-top: 1px solid #ccc" />
 
-        <p
-          th:if="${edited}"
-          class="text-muted"
-          style="font-size: 0.9rem; margin-top: -0.5rem"
-          th:with="fmt=#{post.lastUpdated.format}"
-        >
+        <p th:if="${edited}" class="text-muted" style="font-size: 0.9rem; margin-top: -0.5rem">
           <span th:text="#{post.lastUpdated}"></span>
-          <span th:text="${#temporals.format(lastEditedAt, fmt)}"></span>
+
+          <!-- たった今 -->
+          <span th:if="${amount == null}" th:text="#{${unitKey}}"></span>
+
+          <!-- 数字 + 単位 -->
+          <span th:if="${amount != null}">
+            <span th:text="${amount}"></span>
+            <span th:text="#{${unitKey}}"></span>
+          </span>
         </p>
 
         <p>

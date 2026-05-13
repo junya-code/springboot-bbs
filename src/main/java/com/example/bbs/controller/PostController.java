@@ -6,6 +6,7 @@ import com.example.bbs.config.SpamConfig;
 import com.example.bbs.dto.CommentForm;
 import com.example.bbs.dto.LikeInfo;
 import com.example.bbs.dto.PostForm;
+import com.example.bbs.dto.RelativeTime;
 import com.example.bbs.model.Comment;
 import com.example.bbs.model.Post;
 import com.example.bbs.model.User;
@@ -119,8 +120,10 @@ public class PostController {
         model.addAttribute("comments", commentPage);
 
         LocalDateTime lastEditedAt = postService.getLastEditedAt(id);
-        model.addAttribute("lastEditedAt", lastEditedAt);
+        RelativeTime relative = postService.toRelativeTime(lastEditedAt);
         model.addAttribute("edited", lastEditedAt != null);
+        model.addAttribute("amount", relative.amount());
+        model.addAttribute("unitKey", relative.unitKey());
 
         if (!model.containsAttribute("commentForm")) {
             model.addAttribute("commentForm", new CommentForm());

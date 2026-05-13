@@ -2,6 +2,7 @@ package com.example.bbs.service;
 
 import com.example.bbs.config.SpamConfig;
 import com.example.bbs.dto.PostForm;
+import com.example.bbs.dto.RelativeTime;
 import com.example.bbs.model.Post;
 import com.example.bbs.model.PostHistory;
 import com.example.bbs.model.User;
@@ -18,6 +19,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -62,6 +64,31 @@ public class PostService {
     public LocalDateTime getLastEditedAt(Long postId) {
         PostHistory postHistoryTop = historyRepo.findTop1ByPostIdOrderByEditedAtDesc(postId);
         return postHistoryTop == null ? null : postHistoryTop.getEditedAt();
+    }
+
+    public RelativeTime toRelativeTime(LocalDateTime time) {
+        if (time == null)
+            return new RelativeTime("time.justNow", null);
+
+        Duration d = Duration.between(time, LocalDateTime.now());
+
+        long minutes = d.toMinutes();
+        if (minutes < 1)
+            return new RelativeTime("time.justNow", null);
+        if (minutes < 60) {
+            String key = (minutes == 1) ? "time.minuteAgo" : "time.minutesAgo";
+            return new RelativeTime(key, minutes);
+        }
+
+        long hours = d.toHours();
+        if (hours < 24) {
+            String key = (hours == 1) ? "time.hourAgo" : "time.hoursAgo";
+            return new RelativeTime(key, hours);
+        }
+
+        long days = d.toDays();
+        String key = (days == 1) ? "time.dayAgo" : "time.daysAgo";
+        return new RelativeTime(key, days);
     }
 
     private boolean verifyOwnership(Post post, User user) {
