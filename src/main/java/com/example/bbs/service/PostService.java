@@ -68,27 +68,27 @@ public class PostService {
 
     public RelativeTime toRelativeTime(LocalDateTime time) {
         if (time == null)
-            return new RelativeTime("time.justNow", null);
+            return new RelativeTime(null, null, false); // 編集なし
 
         Duration d = Duration.between(time, LocalDateTime.now());
 
         long minutes = d.toMinutes();
         if (minutes < 1)
-            return new RelativeTime("time.justNow", null);
+            return new RelativeTime("time.justNow", null, true);
         if (minutes < 60) {
             String key = (minutes == 1) ? "time.minuteAgo" : "time.minutesAgo";
-            return new RelativeTime(key, minutes);
+            return new RelativeTime(key, minutes, true);
         }
 
         long hours = d.toHours();
         if (hours < 24) {
             String key = (hours == 1) ? "time.hourAgo" : "time.hoursAgo";
-            return new RelativeTime(key, hours);
+            return new RelativeTime(key, hours, true);
         }
 
         long days = d.toDays();
         String key = (days == 1) ? "time.dayAgo" : "time.daysAgo";
-        return new RelativeTime(key, days);
+        return new RelativeTime(key, days, true);
     }
 
     private boolean verifyOwnership(Post post, User user) {

@@ -121,7 +121,7 @@ public class PostController {
 
         LocalDateTime lastEditedAt = postService.getLastEditedAt(id);
         RelativeTime relative = postService.toRelativeTime(lastEditedAt);
-        model.addAttribute("edited", lastEditedAt != null);
+        model.addAttribute("edited", relative.exists());
         model.addAttribute("amount", relative.amount());
         model.addAttribute("unitKey", relative.unitKey());
 
