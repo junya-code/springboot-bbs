@@ -66,7 +66,7 @@ public class BrowserSessionFilter extends OncePerRequestFilter {
         for (String pattern : blockedPatterns) {
             if (path.contains(pattern)) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return; // ここで終了
+                return;
             }
         }
 

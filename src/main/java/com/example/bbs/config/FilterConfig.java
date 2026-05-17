@@ -24,7 +24,7 @@ public class FilterConfig {
         FilterRegistrationBean<UARejectFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new UARejectFilter());
         registration.addUrlPatterns("/*");
-        registration.setOrder(0); // ★ 一番最初に実行
+        registration.setOrder(0); // 一番最初に実行
         return registration;
     }
 
@@ -113,7 +113,7 @@ public class FilterConfig {
 // 違えば即スルー。
 
 // 7 BrowserSessionFilter【カスタム】
-// ここでSQL実行！Cookieの署名検証やセッションの生存確認を行うあなたのアプリの心臓部。
+// ここでSQL実行！Cookieの署名検証やセッションの生存確認を行うアプリの心臓部。
 
 // 8 UsernamePasswordAuthenticationFilterログイン実行
 // （POST /auth/login-processing）を待ち構えている。

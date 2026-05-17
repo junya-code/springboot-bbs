@@ -119,14 +119,14 @@ public class UserService {
 
         Long adminId = getCurrentUser().getId();
 
-        // ★ 試行ログ（人間の破壊的操作をファイルログに残す）
+        // 試行ログ（人間の破壊的操作をファイルログに残す）
         log.info("DeleteUserCompletely called. adminId={}, targetUserId={}", adminId, targetUserId);
 
         try {
             User user = userRepository.findById(targetUserId)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-            // ★ ユーザー自身の Like を全削除
+            // ユーザー自身の Like を全削除
             List<Like> userLikes = likeService.findByUserId(targetUserId);
             for (Like like : userLikes) {
                 likeRepository.delete(like);
@@ -144,7 +144,7 @@ public class UserService {
 
             for (Post post : posts) {
 
-                // ★ 投稿に付いた Like（全員分）を削除
+                // 投稿に付いた Like（全員分）を削除
                 List<Like> postLikes = likeService.findByPostId(post.getId());
                 for (Like like : postLikes) {
                     likeRepository.delete(like);
@@ -168,7 +168,7 @@ public class UserService {
 
             userRepository.delete(user);
 
-            // ★ 成功ログ（監査ログ）
+            // 成功ログ（監査ログ）
             userActionLogService.logActionSuccess(
                     request,
                     sessionId,
@@ -178,11 +178,9 @@ public class UserService {
                     botStatus);
 
         } catch (Exception e) {
-
-            // ★ 例外ログ（失敗ログ）
             log.error("DeleteUserCompletely failed. adminId={}, targetUserId={}", adminId, targetUserId, e);
 
-            throw e; // 例外は上に投げる
+            throw e;
         }
     }
 
@@ -198,11 +196,13 @@ public class UserService {
                     Role.ROLE_USER);
 
             userRepository.save(user);
-
             log.info("User registered successfully. username={}", form.getUsername());
+
             return user;
+
         } catch (Exception e) {
             log.error("User register failed in service. username={}", form.getUsername(), e);
+
             throw e;
         }
     }
