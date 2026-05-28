@@ -3,7 +3,7 @@ package com.example.bbs.util;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
-public class CookieUtil {
+public final class CookieUtil {
 
     private CookieUtil() {
         // インスタンス化禁止（ユーティリティクラス）
