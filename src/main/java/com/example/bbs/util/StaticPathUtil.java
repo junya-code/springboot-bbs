@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class StaticPathUtil {
+public final class StaticPathUtil {
 
     private StaticPathUtil() {
         // インスタンス化禁止（ユーティリティクラス）

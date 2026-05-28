@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.example.bbs.config.SessionConfig;
 import com.example.bbs.model.UserSession;
 
-public class SessionUtil {
+public final class SessionUtil {
 
     private SessionUtil() {
         // インスタンス化禁止（ユーティリティクラス）
