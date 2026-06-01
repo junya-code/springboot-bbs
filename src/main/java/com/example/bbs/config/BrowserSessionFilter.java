@@ -104,6 +104,22 @@ public class BrowserSessionFilter extends OncePerRequestFilter {
 
         Cookie cookie = new Cookie(CookieConfig.BROWSER_SESSION_COOKIE_NAME, newSignedValue);
         cookie.setPath("/");
+
+        /**
+         * =================================================================
+         * クッキーの HttpOnly 属性設定（JavaScript からの遮断）
+         * =================================================================
+         * 【意味】
+         * このクッキーを「HTTP / HTTPS の通信でのみ」使うようブラウザに強制する。
+         * * 【効果】
+         * JavaScript の「document.cookie」を使った読み書きの対象から、
+         * このクッキーを完全に隠蔽する。
+         * * 【防げる攻撃：XSS（クロスサイトスクリプティング）】
+         * 万が一アプリに XSS 脆弱性があり、悪意ある JavaScript を実行されても、
+         * セッションID（JSESSIONID等）をスクリプト経由で直接盗み出される
+         * （セッションハイジャックされる）リスクを徹底的に防ぐ。
+         * =================================================================
+         */
         cookie.setHttpOnly(true);
 
         // この Cookie は HTTPS 通信でしか送らないでね」というブラウザへの指示
