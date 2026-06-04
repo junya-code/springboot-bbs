@@ -17,8 +17,8 @@ public class SpamConfig {
     public static final int ACCOUNT_CREATE_LIMIT = 2;
 
     // 重複投稿を許容しない時間（秒）
-    public static final int COMMENT_DUPLICATE_WINDOW_SECONDS = 10;
-    public static final int POST_DUPLICATE_WINDOW_SECONDS = 10;
+    public static final int COMMENT_DUPLICATE_WINDOW_SECONDS = 600;
+    public static final int POST_DUPLICATE_WINDOW_SECONDS = 600;
 
     /** ログイン失敗がこの回数を超えたらアカウントをロックする */
     public static final int LOGIN_FAIL_THRESHOLD = 5;
