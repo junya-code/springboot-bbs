@@ -33,6 +33,12 @@ if (likeButton) {
       //
       // この 2 段階チェックのおかげで、
       // 「API が壊れたときに UI が壊れる」という最悪の事故を防げる。
+      // ----- 補足 -----
+      // この処理は共通化して別ファイルに切り出すべきだが、
+      // 本アプリはほとんど JS を使わない（数箇所でしか fetch しない）アプリのため
+      // その場にまるごと記述している
+      // DRY原則（Don't Repeat Yourself：同じことを繰り返すな）によって
+      // 同じ処理（コピペ）が3回以上登場したら共通化を検討する
       .then(async (response) => {
         if (!response.ok) {
           const text = await response.text();
