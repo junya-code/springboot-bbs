@@ -77,7 +77,7 @@ public class SecurityConfig {
                                 .exceptionHandling(exception -> exception
                                                 .accessDeniedPage("/error/403"));
 
-                // ← ここで Security の内部フィルタチェーンに挿入する（必須）
+                // ここで Security の内部フィルタチェーンに挿入する
                 http.addFilterBefore(browserSessionFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();

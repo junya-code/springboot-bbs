@@ -111,7 +111,7 @@ public class PostService {
                 throw new AccessDeniedException("Not authorized");
             }
 
-            // ★ 冪等化：内容が変わっていなければスキップ
+            // 冪等化：内容が変わっていなければスキップ
             if (post.getTitle().equals(postForm.getTitle()) &&
                     post.getContent().equals(postForm.getContent())) {
 
@@ -205,7 +205,7 @@ public class PostService {
         log.info("DeletePost called. postId={}, userId={}", id, user.getId());
 
         try {
-            // ★ まず投稿を取得（ここで存在しなければ例外 → 今まで通り）
+            // まず投稿を取得（ここで存在しなければ例外 → 今まで通り）
             Optional<Post> optionalPost = postRepository.findById(id);
             if (optionalPost.isEmpty()) {
                 log.warn("Delete skipped. Already deleted. postId={}", id);

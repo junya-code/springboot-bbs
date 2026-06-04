@@ -37,7 +37,7 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
         });
 
         // LockedExceptionはSpring Security が公式に用意している “アカウントロック専用の例外”
-        // ★ ロック中のユーザーは専用エラーを返す
+        // ロック中のユーザーは専用エラーを返す
         if (exception instanceof LockedException) {
             setDefaultFailureUrl("/auth/login?locked");
         } else {

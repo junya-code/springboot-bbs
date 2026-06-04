@@ -43,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // Spring Security が認可処理で使える権限オブジェクトに変換する。
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole().name()));
 
-        // ★ LoginUser に権限を渡す（ここが超重要）
+        // LoginUser に権限を渡す
         return new LoginUser(user, authorities);
     }
 }

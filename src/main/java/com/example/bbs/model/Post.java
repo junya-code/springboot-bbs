@@ -34,7 +34,7 @@ public class Post {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    // → ManyToOne はデフォルトが EAGER なので、 LAZY にして画面側で必要なときだけ JOIN する。
+    // ManyToOne はデフォルトが EAGER なので、 LAZY にして画面側で必要なときだけ JOIN する。
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

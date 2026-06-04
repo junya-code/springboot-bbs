@@ -93,14 +93,14 @@ public class RateLimitFilter implements Filter {
         // 古いBAN削除（期限切れ）
         bannedKeys.entrySet().removeIf(entry -> entry.getValue() < now);
 
-        // ③ BAN チェック(IPを偽装するBOTには効果なし)
+        // BAN チェック(IPを偽装するBOTには効果なし)
         if (bannedKeys.containsKey(key)) {
             response.setStatus(RateLimitConfig.HTTP_TOO_MANY_REQUESTS);
             response.getWriter().write(RateLimitConfig.BAN_MESSAGE);
             return;
         }
 
-        // ④ レート制限カウンタ更新
+        // レート制限カウンタ更新
         RequestCounter counter = requestCounters.computeIfAbsent(key, k -> new RequestCounter());
         synchronized (counter) {
             if (now - counter.timestamp < RateLimitConfig.WINDOW_MS) {
@@ -123,7 +123,7 @@ public class RateLimitFilter implements Filter {
             }
         }
 
-        // ⑤ 通常処理
+        // 通常処理
         chain.doFilter(req, res);
     }
 

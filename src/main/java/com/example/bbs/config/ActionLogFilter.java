@@ -58,7 +58,7 @@ public class ActionLogFilter implements Filter {
             userId = loginUser.getId();
         }
 
-        // ★ アクション種別（enum 化）
+        // アクション種別（enum 化）
         ActionType action = switch (request.getMethod()) {
             case "GET" -> ActionType.PAGE_VIEW;
             case "POST", "DELETE", "PUT", "PATCH" -> ActionType.REQUEST;

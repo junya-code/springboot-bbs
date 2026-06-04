@@ -18,10 +18,10 @@ public class PreLogoutCleanupHandler implements LogoutHandler {
 
         HttpSession session = request.getSession(false);
         if (session != null) {
-            // ★ ログアウト由来のセッション破棄であることを示すフラグ
+            // ログアウト由来のセッション破棄であることを示すフラグ
             session.setAttribute("LOGOUT_FLAG", true);
 
-            // ★ SESSION_EXPIRED を防ぐために LOGIN_USER を削除
+            // SESSION_EXPIRED を防ぐために LOGIN_USER を削除
             session.removeAttribute("LOGIN_USER");
         }
     }

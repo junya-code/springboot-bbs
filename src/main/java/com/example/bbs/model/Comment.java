@@ -30,7 +30,9 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // ★ これが無いと Hibernate が Comment を生成できず落ちる
+    // これが無いと Hibernate が Comment を生成できず落ちる。
+    // private にはできない。protected である必要がある。
+    // 理由は JPA（Hibernate）がエンティティを生成するときに “サブクラスからアクセス可能な引数なしコンストラクタ” を要求するから。
     protected Comment() {
     }
 

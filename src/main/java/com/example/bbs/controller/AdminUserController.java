@@ -40,7 +40,7 @@ public class AdminUserController {
 
         User admin = userService.getCurrentUser();
 
-        // ★ 試行ログ（人間の動きが一目で分かる）
+        // 試行ログ（人間の動きが一目で分かる）
         log.info("DeleteUser called. adminId={}, targetUserId={}", admin.getId(), id);
 
         String sessionId = (String) request.getAttribute(CookieConfig.BROWSER_SESSION_COOKIE_NAME);

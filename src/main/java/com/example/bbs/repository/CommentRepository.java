@@ -18,7 +18,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findByUserId(Long userId);
 
-    // ★ 冪等化のための重複チェック
+    // 冪等化のための重複チェック
     boolean existsByUserIdAndPostIdAndContentAndCreatedAtAfter(
             Long userId,
             Long postId,

@@ -25,11 +25,11 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    // ★ ログイン失敗回数
+    // ログイン失敗回数
     @Column(nullable = false)
     private int loginFailCount = 0;
 
-    // ★ ロック解除予定時刻（null ならロックなし）
+    // ロック解除予定時刻（null ならロックなし）
     private LocalDateTime lockUntil;
 
     @OneToMany(mappedBy = "user")
@@ -48,7 +48,7 @@ public class User {
     private Role role = Role.ROLE_USER;
 
     protected User() {
-    } // JPA用
+    }
 
     public User(String username, String encodedPassword, Role role) {
         this.username = username;

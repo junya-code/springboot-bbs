@@ -46,7 +46,7 @@ public class SessionExpiredListener implements HttpSessionListener {
 
         HttpSession session = se.getSession();
 
-        // ★ ログインユーザーがいなければ何もしない（BOT対策）
+        // ログインユーザーがいなければ何もしない（BOT対策）
         LoginUser loginUser = (LoginUser) session.getAttribute("LOGIN_USER");
         if (loginUser == null) {
             return;
@@ -61,7 +61,7 @@ public class SessionExpiredListener implements HttpSessionListener {
 
         Long userId = loginUser.getId();
 
-        // ★ SESSION_EXPIRED を保存
+        // SESSION_EXPIRED を保存
         userActionLogService.saveSessionExpired(uuid, userId);
     }
 }

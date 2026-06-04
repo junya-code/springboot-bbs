@@ -17,13 +17,13 @@ public class SpamCheckService {
     private final UserActionLogService userActionLogService;
     private final UserActionLogRepository repo;
 
-    // ★ sessionId → ロック開始時刻（1つの Map に統合）
+    // sessionId → ロック開始時刻（1つの Map に統合）
     private final Map<String, LocalDateTime> lockMap = new ConcurrentHashMap<>();
 
-    // ★ userId → (ActionType → BAN解除時刻)
+    // userId → (ActionType → BAN解除時刻)
     private final Map<Long, Map<ActionType, LocalDateTime>> userBanMap = new ConcurrentHashMap<>();
 
-    // ★ sessionId → (ActionType → BAN解除時刻)
+    // sessionId → (ActionType → BAN解除時刻)
     private final Map<String, Map<ActionType, LocalDateTime>> sessionBanMap = new ConcurrentHashMap<>();
 
     public SpamCheckService(UserActionLogService userActionLogService,
@@ -32,17 +32,17 @@ public class SpamCheckService {
         this.repo = repo;
     }
 
-    // ★ ロック中かどうか
+    // ロック中かどうか
     public boolean isLocked(String sessionId) {
         return lockMap.containsKey(sessionId);
     }
 
-    // ★ ロック開始
+    // ロック開始
     public void lock(String sessionId) {
         lockMap.put(sessionId, LocalDateTime.now());
     }
 
-    // ★ ロック解除
+    // ロック解除
     public void unlock(String sessionId) {
         lockMap.remove(sessionId);
     }

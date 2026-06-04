@@ -50,7 +50,7 @@ public class UserActionLogService {
         repo.save(log);
     }
 
-    // ★ SESSION_EXPIRED 専用メソッド
+    // SESSION_EXPIRED 専用メソッド
     public void saveSessionExpired(String sessionId, Long userId) {
 
         UserActionLog log = new UserActionLog();

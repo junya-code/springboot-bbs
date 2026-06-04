@@ -43,13 +43,13 @@ public class AuthController {
     @GetMapping("/login")
     public String login(Model model, HttpSession session) {
 
-        // ★ loginForm が model に無い場合のみ、新規フォームを作る
+        // loginForm が model に無い場合のみ、新規フォームを作る
         // （POST /login の @Valid エラー時は Spring MVC の仕組みで
         // FlashAttribute が自動的に model に復元されるため、ここには入らない）
         if (!model.containsAttribute("loginForm")) {
             LoginForm form = new LoginForm();
 
-            // ★ Spring Security の認証失敗時は、Spring MVC の redirect ではなく
+            // Spring Security の認証失敗時は、Spring MVC の redirect ではなく
             // Security 独自の redirect が実行されるため、
             // FlashAttribute や BindingResult が復元されない。
             // そのため FailureHandler が一時的にセッションへ保存した username をここで復元する。
@@ -85,7 +85,7 @@ public class AuthController {
             HttpServletRequest request,
             @RequestParam(name = "hp_field", required = false) String honeypot) {
 
-        // ★ ハニーポット判定
+        // ハニーポット判定
         if (honeypot != null && !honeypot.isBlank()) {
             request.setAttribute("IS_BOT", BotStatus.BOT);
             return "redirect:/"; // BOT は即終了
@@ -115,7 +115,7 @@ public class AuthController {
             HttpServletRequest request,
             @RequestParam(name = "hp_field", required = false) String honeypot) {
 
-        // ★ ハニーポット判定
+        // ハニーポット判定
         if (honeypot != null && !honeypot.isBlank()) {
             request.setAttribute("IS_BOT", BotStatus.BOT);
             return "redirect:/"; // BOT は即終了
@@ -141,7 +141,7 @@ public class AuthController {
         if (botStatus == null)
             botStatus = BotStatus.UNKNOWN;
 
-        // --- A. BAN 判定（種類ごとに分離された新方式） ---
+        // BAN 判定
         if (spamCheckService.isSessionBanned(sessionId, ActionType.ACCOUNT_CREATE)) {
             long remaining = spamCheckService.getSessionRemainingMinutes(sessionId, ActionType.ACCOUNT_CREATE);
             redirectAttributes.addFlashAttribute("errorMessageKey", "flash.register.tooManyAccounts");
@@ -150,10 +150,10 @@ public class AuthController {
             return "redirect:/auth/login";
         }
 
-        // --- B. スパム判定（回数チェック） ---
+        // スパム判定（回数チェック）
         if (spamCheckService.isAccountCreateSpam(sessionId)) {
 
-            // ★ BAN 発動（固定長）
+            // BAN 発動（固定長）
             spamCheckService.banSession(
                     sessionId,
                     ActionType.ACCOUNT_CREATE,
@@ -166,10 +166,10 @@ public class AuthController {
             return "redirect:/auth/login";
         }
 
-        // ★ ここで例外が出たら GlobalExceptionHandler が処理する
+        // ここで例外が出たら GlobalExceptionHandler が処理する
         User createdUser = userService.registerUser(form);
 
-        // ★ ログ保存
+        // ログ保存
         userActionLogService.logActionSuccess(
                 request,
                 sessionId,

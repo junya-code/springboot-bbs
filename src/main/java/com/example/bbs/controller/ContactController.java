@@ -74,7 +74,7 @@ public class ContactController {
             HttpServletRequest request,
             @RequestParam(name = "hp_field", required = false) String honeypot) {
 
-        // ★ ハニーポット判定
+        // ハニーポット判定
         if (honeypot != null && !honeypot.isBlank()) {
             request.setAttribute("IS_BOT", BotStatus.BOT);
             return "redirect:/"; // BOT は即終了
@@ -100,7 +100,7 @@ public class ContactController {
             HttpServletRequest request,
             @RequestParam(name = "hp_field", required = false) String honeypot) {
 
-        // ★ ハニーポット判定（本番）
+        // ハニーポット判定（本番）
         if (honeypot != null && !honeypot.isBlank()) {
             request.setAttribute("IS_BOT", BotStatus.BOT);
             return "redirect:/"; // BOT は即終了
@@ -111,14 +111,14 @@ public class ContactController {
         if (botStatus == null)
             botStatus = BotStatus.UNKNOWN;
 
-        // --- A. セキュリティ＆バリデーション・ガード ---
+        // バリデーション
         if (result.hasErrors()) {
             log.warn("Validation failed on submit. Unauthorized or invalid access. errors={}", result.getAllErrors());
             model.addAttribute("errorMessageKey", "flash.sessionOrValidationError");
             return "contact/form";
         }
 
-        // --- B. BAN 判定 ---
+        // BAN 判定
         if (spamCheckService.isSessionBanned(sessionId, ActionType.SEND_CONTACT)) {
             long remaining = spamCheckService.getSessionRemainingMinutes(sessionId, ActionType.SEND_CONTACT);
             model.addAttribute("errorMessageKey", "flash.contact.tooManyContacts");
@@ -126,7 +126,7 @@ public class ContactController {
             return "contact/confirm";
         }
 
-        // --- B. 連打・二重送信ガード（PRGパターン用） ---
+        // 連打・二重送信ガード PRGパターン用 (PRGとはフォーム送信後に 直接 View を返さず、 Redirect を挟む設計。)
         // ※ 現在はフロント側で submit ボタンを即時 disable しているため、
         // 通常の利用ではここに到達しない（連打による二重送信が発生しない）。
         // ただし URL 直打ちや BOT など、画面を経由しないアクセスに対する
@@ -136,14 +136,14 @@ public class ContactController {
             return "redirect:/contact/sending";
         }
 
-        // ★ ロックセット
+        // ロックセット
         spamCheckService.lock(sessionId);
 
         try {
-            // --- D. スパム判定（回数チェック） ---
+            // スパム判定（回数チェック）
             if (spamCheckService.isContactSendSpam(sessionId)) {
 
-                // ★ BAN 発動（固定長）
+                // BAN 発動（固定長）
                 spamCheckService.banSession(
                         sessionId,
                         ActionType.SEND_CONTACT,
@@ -158,11 +158,11 @@ public class ContactController {
 
             log.info("Contact submit called. name={}", contactForm.getName());
 
-            // ★ メール送信
+            // メール送信
             emailService.sendUserEmail(contactForm);
             emailService.sendAdminEmail(contactForm);
 
-            // ★ ログ保存
+            // ログ保存
             userActionLogService.logActionSuccess(
                     request,
                     sessionId,
@@ -183,7 +183,7 @@ public class ContactController {
             return "contact/confirm";
 
         } finally {
-            // ★ 必ずロック解除
+            // 必ずロック解除
             spamCheckService.unlock(sessionId);
         }
     }

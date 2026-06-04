@@ -48,7 +48,7 @@ public class CommentController {
             HttpServletRequest request,
             @RequestParam(name = "hp_field", required = false) String honeypot) {
 
-        // ★ ハニーポット判定
+        // ハニーポット判定
         if (honeypot != null && !honeypot.isBlank()) {
             // BOT と判定
             request.setAttribute("IS_BOT", BotStatus.BOT);

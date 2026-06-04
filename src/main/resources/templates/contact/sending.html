@@ -11,12 +11,12 @@
   <body>
     <main layout:fragment="content">
       <div class="mt-5 text-center">
-        <h1 class="mb-4">お問い合わせありがとうございました。</h1>
+        <h1 class="mb-4" th:text="#{contact.sending.heading}"></h1>
         <p>
-          重複したリクエストを受け取りました。 現在、最初のお問い合わせを処理しています。
-          数分以内に確認メールが届かない場合は、 お手数ですが再度お問い合わせをお願いいたします。
+          <span th:text="#{contact.sending.description.line1}"></span><br />
+          <span th:text="#{contact.sending.description.line2}"></span>
         </p>
-        <a th:href="@{/posts}" class="btn btn-primary">トップページへ戻る</a>
+        <a th:href="@{/posts}" class="btn btn-primary" th:text="#{contact.sending.backToTop}"> </a>
       </div>
     </main>
   </body>

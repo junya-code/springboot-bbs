@@ -85,7 +85,7 @@ public class CommentService {
                         return new NoSuchElementException("Post not found with id: " + postId);
                     });
 
-            // ★ 冪等化：短時間の重複投稿を防止
+            // 冪等化：短時間の重複投稿を防止
             boolean exists = commentRepository.existsByUserIdAndPostIdAndContentAndCreatedAtAfter(
                     user.getId(),
                     postId,
@@ -119,7 +119,7 @@ public class CommentService {
         try {
             Optional<Comment> commentOpt = commentRepository.findById(id);
 
-            // ★ 冪等性：すでに削除済みなら何もしない
+            // 冪等性：すでに削除済みなら何もしない
             if (commentOpt.isEmpty()) {
                 log.warn("Delete skipped. Already deleted. commentId={}", id);
                 return;

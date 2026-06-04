@@ -28,7 +28,7 @@ public class Like {
     private LocalDateTime createdAt;
 
     protected Like() {
-    } // JPA用
+    }
 
     public Like(Post post, User user) {
         this.post = post;

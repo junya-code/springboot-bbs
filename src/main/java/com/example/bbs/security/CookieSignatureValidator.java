@@ -43,7 +43,7 @@ public class CookieSignatureValidator {
             // クライアントから送られてきた署名（バイト列）
             byte[] actualBytes = Base64.getUrlDecoder().decode(signature);
 
-            // // constant-time 比較をする理由は
+            // constant-time 比較をする理由は
             // 先頭のバイトが違う → すぐ false を返す（高速）
             // 途中まで一致 → 少し時間がかかる
             // 全部一致 → 最後まで比較するので最も時間がかかる

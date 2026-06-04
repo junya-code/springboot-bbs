@@ -56,7 +56,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Bad credentials");
         }
 
-        // ★ 成功したら失敗カウントをリセット
+        // 成功したら失敗カウントをリセット
         userService.resetLoginFail(user.getId());
 
         // null（パスワードは消す）
