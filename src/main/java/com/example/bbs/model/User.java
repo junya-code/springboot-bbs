@@ -61,9 +61,9 @@ public class User {
      *
      * 【ロック方式の仕様】
      * - threshold 回ログイン失敗すると lockUntil にロック解除時刻をセットし、一定時間ログイン不可になる。
-     * - ロック中に再度ログイン試行が行われた場合でも、FailureHandler 側で LockedException が発生するため
-     * パスワード比較には進まず、このメソッドは呼ばれない。
-     * → つまり「ロック中は延命されない」わけではなく、
+     * - ロック中に再度ログイン試行が行われた場合でも、loadUserByUsernameで LockedException が発生するため
+     * パスワード比較には進まない。
+     * 「ロック中は延命されない」わけではなく、
      * FailureHandler が increaseLoginFail() を呼ぶため lockUntil が更新され、結果的に延命される。
      *
      * 【挙動の特徴】
