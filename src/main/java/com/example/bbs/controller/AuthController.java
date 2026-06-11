@@ -43,6 +43,20 @@ public class AuthController {
     @GetMapping("/login")
     public String login(Model model, HttpSession session) {
 
+        // セッションからエラーフラグを回収して Model へバトンリレー
+        // ※ HTML（Thymeleaf）側でセッションを直接参照すると、手動で消さない限り
+        // 画面をリロード（F5）してもエラーメッセージが消えなくなるバグ（ゾンビ化）が発生する。
+        // 1回の画面表示で勝手に寿命が尽きる「Model」へ移し替えることで、この問題を綺麗に防ぐ。
+        if (session.getAttribute("isLocked") != null) {
+            model.addAttribute("isLocked", true);
+            session.removeAttribute("isLocked");
+        }
+
+        if (session.getAttribute("isBadCredentials") != null) {
+            model.addAttribute("isBadCredentials", true);
+            session.removeAttribute("isBadCredentials");
+        }
+
         // loginForm が model に無い場合のみ、新規フォームを作る
         // （POST /login の @Valid エラー時は Spring MVC の仕組みで
         // FlashAttribute が自動的に model に復元されるため、ここには入らない）

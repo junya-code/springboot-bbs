@@ -36,17 +36,20 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
             userService.increaseLoginFail(user.getId());
         });
 
-        // LockedExceptionはSpring Security が公式に用意している “アカウントロック専用の例外”
-        // ロック中のユーザーは専用エラーを返す
-        if (exception instanceof LockedException) {
-            setDefaultFailureUrl("/auth/login?locked");
-        } else {
-            // 通常のログイン失敗
-            setDefaultFailureUrl("/auth/login?badCredentials");
-        }
-
         request.getSession().setAttribute("loginFormUsername", username);
 
-        super.onAuthenticationFailure(request, response, exception);
+        // LockedExceptionはSpring Security が公式に用意している “アカウントロック専用の例外”
+        // ロック中のユーザーは専用メッセージを返す
+        if (exception instanceof LockedException) {
+            request.getSession().setAttribute("isLocked", true);
+        } else {
+            request.getSession().setAttribute("isBadCredentials", true);
+        }
+
+        // forwardだと元のPOST状態（ログイン処理）が維持されたまま内部ループし、
+        // 一瞬で無限に失敗カウントが進む（StackOverflowError）ため、
+        // 一度リクエストを完全に断ち切る「sendRedirect」で安全にGET画面へ遷移させる。
+        String contextPath = request.getContextPath();
+        getRedirectStrategy().sendRedirect(request, response, contextPath + "/auth/login");
     }
 }

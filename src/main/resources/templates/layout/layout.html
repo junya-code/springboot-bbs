@@ -82,7 +82,7 @@
     </div>
 
     <div
-      th:if="${param.badCredentials}"
+      th:if="${isBadCredentials}"
       class="alert alert-danger alert-dismissible fade show"
       role="alert"
     >
@@ -92,11 +92,7 @@
       </div>
     </div>
 
-    <div
-      th:if="${param.locked}"
-      class="alert alert-danger alert-dismissible fade show"
-      role="alert"
-    >
+    <div th:if="${isLocked}" class="alert alert-danger alert-dismissible fade show" role="alert">
       <div class="text-center">
         <strong>
           <span th:text="#{auth.locked.line1}"></span><br />
