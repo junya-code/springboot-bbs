@@ -52,9 +52,12 @@ public class SessionExpiredListener implements HttpSessionListener {
             return;
         }
 
+        // プリミティブ型の boolean は2択だが、ラッパー型の Boolean は null を含む3択になる。
+        // BOTアクセス等で null の時に == 比較するとアンボクシング（型変換）でヌルポになるため、
+        // Boolean.TRUE.equals() を使って安全に判定する。
         Boolean logoutFlag = (Boolean) session.getAttribute("LOGOUT_FLAG");
-        if (logoutFlag != null && logoutFlag) {
-            return; // ログアウト由来の破棄は無視
+        if (Boolean.TRUE.equals(logoutFlag)) {
+            return; // ログアウト由来の破棄はログアウト時にSESSION_EXPIRED を保存しているため無視
         }
 
         String uuid = (String) session.getAttribute("BROWSER_SESSION_UUID");
