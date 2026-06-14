@@ -70,12 +70,20 @@ public class BrowserSessionFilter extends OncePerRequestFilter {
             }
         }
 
-        // UUIDの取得・生成
-        String sessionUuid = resolveOrCreateUuid(request, response);
+        String signedValue = CookieUtil.findCookie(request, CookieConfig.BROWSER_SESSION_COOKIE_NAME);
 
-        // セッションの永続化
-        LocalDateTime now = LocalDateTime.now();
-        userSessionService.updateOrCreate(sessionUuid, now);
+        // UUIDの取得・生成
+        String sessionUuid = resolveOrCreateUuid(request, response, signedValue);
+
+        // 署名 OK の既存セッションだけ DB 更新
+        Boolean existing = (Boolean) request.getAttribute("EXISTING_SESSION");
+
+        // 初回アクセスでは user_session を作らず、2回目以降だけ DB を更新する。
+        if (Boolean.TRUE.equals(existing)) {
+            // セッションの永続化（2回目以降の人間だけ）
+            LocalDateTime now = LocalDateTime.now();
+            userSessionService.updateOrCreate(sessionUuid, now);
+        }
 
         // 後続フィルタ（RateLimitFilter等）で使えるように属性セット
         request.setAttribute(CookieConfig.BROWSER_SESSION_COOKIE_NAME, sessionUuid);
@@ -86,14 +94,13 @@ public class BrowserSessionFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String resolveOrCreateUuid(HttpServletRequest request, HttpServletResponse response) {
-        String signedValue = CookieUtil.findCookie(request, CookieConfig.BROWSER_SESSION_COOKIE_NAME);
+    private String resolveOrCreateUuid(HttpServletRequest request, HttpServletResponse response, String signedValue) {
         if (signedValue != null) {
-
             // UUIDを偽装していないか署名で確認
             String extracted = validator.validateAndExtract(signedValue);
             if (extracted != null) {
                 request.setAttribute("IS_BOT", BotStatus.HUMAN);
+                request.setAttribute("EXISTING_SESSION", true);
                 return extracted;
             }
         }
@@ -135,6 +142,7 @@ public class BrowserSessionFilter extends OncePerRequestFilter {
         // UUIDを毎リクエスト偽装するBOTと新規の人間を区別できないため、一旦最初はBOT判定。
         // 次回のリクエストで人間は同じUUIDと署名のはずなので実害はない。
         request.setAttribute("IS_BOT", BotStatus.BOT);
+        request.setAttribute("EXISTING_SESSION", false);
 
         return newUuid;
     }
