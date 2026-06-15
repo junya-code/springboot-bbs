@@ -105,7 +105,8 @@ public class UserActionLogService {
             // 404/500エラーなどのエラーページ遷移の場合
             path = (String) request.getAttribute("jakarta.servlet.error.request_uri");
         }
-        // 2. 未ログインでアクセスし、ログイン画面へリダイレクトされた場合の「本来のURL」をセッションから取得
+
+        // 未ログインでアクセスし、ログイン画面へリダイレクトされた場合の「本来のURL」をセッションから取得
         // Spring Security は認証が必要なページへのアクセスを遮断した際、その情報をセッションに保存します。
         // ログイン画面を「表示（GET）」した時のみ、どこから飛ばされてきたかを記録するように限定します。
         String servletPath = request.getServletPath();
@@ -135,7 +136,7 @@ public class UserActionLogService {
             }
         }
 
-        // 3. 通常のリクエストの場合（クエリパラメータ ?q=... 等も含めて記録）
+        // 通常のリクエストの場合（クエリパラメータ ?q=... 等も含めて記録）
         if (path == null) {
             // getRequestURI() ではなく getServletPath() を使うと、
             // コンテキストパスを除いた「/posts」のような綺麗なパスが記録される
