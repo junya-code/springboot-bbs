@@ -11,7 +11,6 @@ import com.example.bbs.model.enums.ActionType;
 import com.example.bbs.model.enums.BotStatus;
 import com.example.bbs.model.enums.HttpMethodType;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import com.example.bbs.repository.UserActionLogRepository;
 
