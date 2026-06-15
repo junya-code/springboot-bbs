@@ -107,27 +107,39 @@ public class UserActionLogService {
         }
         // 2. 未ログインでアクセスし、ログイン画面へリダイレクトされた場合の「本来のURL」をセッションから取得
         // Spring Security は認証が必要なページへのアクセスを遮断した際、その情報をセッションに保存します。
-        if (path == null && "/auth/login".equals(request.getRequestURI())) {
-            RequestCache requestCache = new HttpSessionRequestCache();
+        // ログイン画面を「表示（GET）」した時のみ、どこから飛ばされてきたかを記録するように限定します。
+        String servletPath = request.getServletPath();
+        if (path == null && method == HttpMethodType.GET && "/auth/login".equals(servletPath)) {
+            // removeRequest メソッドを使用するために具象クラスをインスタンス化
+            HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
             SavedRequest savedRequest = requestCache.getRequest(request, null);
             if (savedRequest != null) {
                 String redirectUrl = savedRequest.getRedirectUrl();
-                try {
-                    // フルURLからパス部分とクエリ部分だけを抜き出す
-                    URI uri = new URI(redirectUrl);
-                    path = uri.getRawPath();
-                    if (uri.getRawQuery() != null) {
-                        path += "?" + uri.getRawQuery();
+
+                // 一度ログ判定に使用した SavedRequest は、パースの成否に関わらず削除する
+                // これにより、パースエラー時でも無限ループ（居残りログ）を防げる
+                requestCache.removeRequest(request, null);
+
+                if (redirectUrl != null) {
+                    try {
+                        // フルURLからパス部分とクエリ部分だけを抜き出す
+                        URI uri = new URI(redirectUrl);
+                        path = uri.getRawPath();
+                        if (uri.getRawQuery() != null) {
+                            path += "?" + uri.getRawQuery();
+                        }
+                    } catch (Exception e) {
+                        path = redirectUrl; // 解析失敗時はフォールバック
                     }
-                } catch (Exception e) {
-                    path = redirectUrl; // 解析失敗時はフォールバック
                 }
             }
         }
 
         // 3. 通常のリクエストの場合（クエリパラメータ ?q=... 等も含めて記録）
         if (path == null) {
-            path = request.getRequestURI();
+            // getRequestURI() ではなく getServletPath() を使うと、
+            // コンテキストパスを除いた「/posts」のような綺麗なパスが記録される
+            path = request.getServletPath();
             String queryString = request.getQueryString();
             if (queryString != null) {
                 path += "?" + queryString;
