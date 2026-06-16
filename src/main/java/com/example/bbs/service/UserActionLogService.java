@@ -99,6 +99,9 @@ public class UserActionLogService {
         }
 
         // 内部フォワード（認証チェックでのログイン画面遷移など）を考慮し、元のパスを取得
+        // サーブレット API の仕様で、getAttribute() は
+        // 「どんな型でも入る可能性がある」 という前提で Object を返す。
+        // そのため開発者が明示的に (String) とキャストする必要がある。
         String path = (String) request.getAttribute("jakarta.servlet.forward.request_uri");
         if (path == null) {
             // 404/500エラーなどのエラーページ遷移の場合
@@ -110,13 +113,22 @@ public class UserActionLogService {
         // ログイン画面を「表示（GET）」した時のみ、どこから飛ばされてきたかを記録するように限定します。
         String servletPath = request.getServletPath();
         if (path == null && method == HttpMethodType.GET && "/auth/login".equals(servletPath)) {
-            // removeRequest メソッドを使用するために具象クラスをインスタンス化
+
+            // SavedRequest の取得・削除には HttpSessionRequestCache のインスタンスが必要
             HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
+
+            // 第2引数は本来レスポンス操作用だが、取得時には使わないため null でOK
             SavedRequest savedRequest = requestCache.getRequest(request, null);
+
+            // forward.request_uri は「内部フォワード時の元URL」
+            // SavedRequest は「リダイレクト時の元URL」
+            // 片方だけでは全ケースをカバーできないため両方チェックする
             if (savedRequest != null) {
+
+                // SavedRequest はフルURLを String でしか保持しないため、パス抽出には後で URI に変換して解析する
                 String redirectUrl = savedRequest.getRedirectUrl();
 
-                // 一度ログ判定に使用した SavedRequest は、パースの成否に関わらず削除する
+                // 一度ログ判定に使用した SavedRequest は、パース(解析)の成否に関わらず削除する
                 // これにより、パースエラー時でも無限ループ（居残りログ）を防げる
                 requestCache.removeRequest(request, null);
 
