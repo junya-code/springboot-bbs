@@ -16,8 +16,10 @@ import com.example.bbs.util.CookieUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     private final UserActionLogService userActionLogService;
@@ -54,7 +56,14 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
                 String signed = CookieUtil.findCookie(request, CookieConfig.BROWSER_SESSION_COOKIE_NAME);
 
                 // 署名を検証して UUID を抽出（署名不正なら null）
-                sessionId = cookieSignatureValidator.validateAndExtract(signed);
+                String extractedSessionId = cookieSignatureValidator.validateAndExtract(signed);
+                if (extractedSessionId == null) {
+                    // 署名付きCookieからSessionIdを復元できなかった場合、特別な値を設定
+                    log.warn("Logout: Failed to extract valid sessionId from cookie. Using placeholder.");
+                    sessionId = "[INVALID_SIGNED_SESSION]";
+                } else {
+                    sessionId = extractedSessionId;
+                }
             }
 
             // UUID のみを session_id として保存

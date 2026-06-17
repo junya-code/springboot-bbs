@@ -30,7 +30,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleBadRequest(IllegalArgumentException e, Model model) {
         log.warn("Bad request", e); // ★ログには詳細を残す
-        model.addAttribute("errorMessage", "不正なリクエストです。");
         return "error/400";
     }
 
@@ -41,7 +40,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoSuchElementException.class)
     public String handleNotFound(NoSuchElementException e, Model model) {
         log.warn("Resource not found", e); // ★ログには詳細
-        model.addAttribute("errorMessage", "指定されたデータは見つかりませんでした。");
         return "error/404";
     }
 
@@ -60,7 +58,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public String handleServerError(Exception e, Model model) {
         log.error("Unhandled exception occurred", e); // ★ログには詳細（スタックトレース含む）
-        model.addAttribute("errorMessage", "サーバーエラーが発生しました。");
         return "error/500";
     }
 }

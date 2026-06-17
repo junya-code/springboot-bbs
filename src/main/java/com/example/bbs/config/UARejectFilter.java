@@ -36,7 +36,7 @@ public class UARejectFilter implements Filter {
 
         // Go 言語の標準 HTTP クライアントは 100% BOT
         if (ua != null && ua.startsWith("Go-http-client")) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return; // ★ 即時拒否（ログもセッションも作らない）
         }
 

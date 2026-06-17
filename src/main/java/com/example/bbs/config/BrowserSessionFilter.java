@@ -65,7 +65,7 @@ public class BrowserSessionFilter extends OncePerRequestFilter {
         String[] blockedPatterns = { ".php" };
         for (String pattern : blockedPatterns) {
             if (path.contains(pattern)) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
         }
