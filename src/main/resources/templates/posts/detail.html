@@ -13,7 +13,7 @@
 
         <hr style="margin: 1.2rem 0; border-top: 1px solid #ccc" />
 
-        <p th:if="${edited}" class="text-muted" style="font-size: 0.9rem; margin-top: -0.5rem">
+        <p th:if="${edited}" class="text" style="font-size: 0.9rem; margin-top: -0.5rem">
           <span th:text="#{post.lastUpdated}"></span>
 
           <!-- たった今 -->
@@ -78,7 +78,7 @@
             <div class="card-header">
               <strong th:text="${comment.user.username}">Username</strong>
               <small
-                class="text-muted ml-2"
+                class="text ml-2"
                 th:text="${#temporals.format(comment.createdAt, 'yyyy/MM/dd HH:mm:ss')}"
                 >Date</small
               >

@@ -35,7 +35,6 @@
     margin-bottom: 0.75rem;
     border: 1px solid #dee2e6;
     border-radius: 0.375rem;
-    background: #fff;
     overflow: hidden; /* ← 角丸を維持 */
     z-index: 1; /* ← 枠線を手前に */
   }
@@ -55,7 +54,6 @@
     content: attr(data-label);
     font-weight: 600;
     margin-right: 0.5rem;
-    color: #495057;
     flex: 0 0 auto;
     width: 30%;
   }
@@ -151,4 +149,44 @@
 
 .preline {
   white-space: pre-line;
+}
+
+html,
+body {
+  color: #fff;
+}
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}
+/* コメントカード全体黒にする */
+.card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+.card-header {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.card-body {
+  color: #fff;
+}
+
+.card-footer {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.custom-table-bg tbody tr td {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
 }

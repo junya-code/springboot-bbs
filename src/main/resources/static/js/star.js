@@ -1,0 +1,35 @@
+const c = document.getElementById('stars');
+const ctx = c.getContext('2d');
+let w,
+  h,
+  stars = [];
+
+function resize() {
+  w = window.innerWidth;
+  h = window.innerHeight;
+  c.width = w;
+  c.height = h;
+  stars = Array.from({ length: 500 }, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    z: Math.random() * w,
+  }));
+}
+window.addEventListener('resize', resize);
+resize();
+
+function drawStars() {
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, w, h);
+  for (const s of stars) {
+    s.z -= 2;
+    if (s.z <= 0) s.z = w;
+    const k = 128 / s.z;
+    const x = w / 2 + (s.x - w / 2) * k;
+    const y = h / 2 + (s.y - h / 2) * k;
+    ctx.fillStyle = '#00ff7f';
+    ctx.fillRect(x, y, 1.5, 1.5);
+  }
+  requestAnimationFrame(drawStars);
+}
+drawStars();
