@@ -1,3 +1,21 @@
+html,
+body {
+  color: #fff;
+}
+
+body {
+  position: relative;
+  padding-bottom: 80px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030;
+}
+
 .flash {
   position: absolute;
   top: -4px;
@@ -92,6 +110,10 @@
   }
 }
 @media (max-width: 576px) {
+  body {
+    padding-bottom: 130px;
+  }
+
   .footer-inner {
     flex-direction: column;
     gap: 0; /* ← 行間ゼロ */
@@ -149,11 +171,6 @@
 
 .preline {
   white-space: pre-line;
-}
-
-html,
-body {
-  color: #fff;
 }
 
 canvas {
