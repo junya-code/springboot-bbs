@@ -30,7 +30,7 @@ function drawStars() {
     const x = w / 2 + (s.x - w / 2) * k; // 画面の中心から、遠近感（k）を掛け算した実際の星の横位置（中心より左ならマイナス、右ならプラス方向に広がる）
     const y = h / 2 + (s.y - h / 2) * k; // 画面の中心から、遠近感（k）を掛け算した実際の星の縦位置（中心より上ならマイナス、下ならプラス方向に広がる）
 
-    ctx.fillStyle = '#ff3333'; // スタイリッシュなのは'#007fff'
+    ctx.fillStyle = '#007fff'; // スタイリッシュなのは'#007fff''#ff3333'
     ctx.fillRect(x, y, 1.5, 1.5);
   }
   requestAnimationFrame(drawStars);
