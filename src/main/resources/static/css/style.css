@@ -20,7 +20,7 @@ footer {
   position: absolute;
   top: -4px;
   left: 50px;
-  background: #ffe4ec;
+  background: #fff;
   color: #b3004b;
   padding: 8px 18px;
   border-radius: 8px;
@@ -208,4 +208,14 @@ canvas {
 .custom-table-bg tbody tr td {
   background-color: rgba(0, 0, 0, 0.4);
   color: #fff;
+}
+
+.alert-success {
+  background-color: #fff;
+  color: #007fff;
+}
+
+.alert-danger {
+  background-color: #fff;
+  color: #ff3333;
 }
