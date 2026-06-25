@@ -219,3 +219,12 @@ canvas {
   background-color: #fff;
   color: #ff3333;
 }
+
+.custom-table-bg a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.custom-table-bg a:hover {
+  color: #cce0ff;
+}

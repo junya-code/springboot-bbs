@@ -57,7 +57,12 @@
           <input type="text" name="hp_field" autocomplete="off" />
         </div>
 
-        <button type="submit" class="btn btn-primary" th:text="#{contact.form.toConfirm}"></button>
+        <button
+          type="submit"
+          class="btn btn-primary me-1"
+          th:text="#{contact.form.toConfirm}"
+        ></button>
+        <a th:href="@{/posts}" class="btn btn-dark">Cancel</a>
       </form>
     </main>
   </body>
