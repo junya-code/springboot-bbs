@@ -75,6 +75,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           cd ${{ secrets.EC2_APP_DIR }}
           docker-compose --env-file .env.prod down
+          docker image prune -f
           docker-compose --env-file .env.prod build --no-cache
           docker-compose --env-file .env.prod up -d
           EOF
