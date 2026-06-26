@@ -228,3 +228,7 @@ canvas {
 .custom-table-bg a:hover {
   color: #cce0ff;
 }
+
+.custom-table-bg a.btn {
+  text-decoration: none;
+}
