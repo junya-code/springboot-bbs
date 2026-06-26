@@ -1,7 +1,6 @@
 package com.example.bbs.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -28,7 +27,7 @@ public class GlobalExceptionHandler {
      * （例：不正なパラメータ、バリデーションエラーなど）
      */
     @ExceptionHandler(IllegalArgumentException.class)
-    public String handleBadRequest(IllegalArgumentException e, Model model) {
+    public String handleBadRequest(IllegalArgumentException e) {
         log.warn("Bad request", e); // ★ログには詳細を残す
         return "error/400";
     }
@@ -38,7 +37,7 @@ public class GlobalExceptionHandler {
      * （例：存在しない投稿IDなど）
      */
     @ExceptionHandler(NoSuchElementException.class)
-    public String handleNotFound(NoSuchElementException e, Model model) {
+    public String handleNotFound(NoSuchElementException e) {
         log.warn("Resource not found", e); // ★ログには詳細
         return "error/404";
     }
@@ -46,7 +45,7 @@ public class GlobalExceptionHandler {
     // 静的リソースは warn ではなく debug にするのが自然
     // （ログ汚染を避けるため）
     @ExceptionHandler(NoResourceFoundException.class)
-    public String handleStaticResourceNotFound(NoResourceFoundException e, Model model) {
+    public String handleStaticResourceNotFound(NoResourceFoundException e) {
         log.debug("Static resource not found: {}", e.getResourcePath());
         return "error/404";
     }
@@ -56,7 +55,7 @@ public class GlobalExceptionHandler {
      * （予期しない例外はすべてここに来る）
      */
     @ExceptionHandler(Exception.class)
-    public String handleServerError(Exception e, Model model) {
+    public String handleServerError(Exception e) {
         log.error("Unhandled exception occurred", e); // ★ログには詳細（スタックトレース含む）
         return "error/500";
     }
