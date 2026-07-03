@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.3</version>
+		<version>4.0.7</version>
 		<relativePath/>
 	</parent>
 	<groupId>com.example</groupId>
@@ -89,12 +89,11 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>3.3.2</version>
+			<version>3.5.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>8.3.0</version>
 		</dependency>
 	</dependencies>
 
