@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.example.bbs.repository.UserRepository;
 import com.example.bbs.service.UserService;
 
+// Springコンテナを起動せず、Mockitoによるモック環境のみでテストを実行するための設定
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
@@ -24,25 +25,21 @@ class UserServiceTest {
 
     @Test
     void isUsernameTaken_存在するユーザー名の場合_trueを返す() {
-        // Arrange
+
         when(userRepository.existsByUsername("junya")).thenReturn(true);
 
-        // Act
         boolean result = userService.isUsernameTaken("junya");
 
-        // Assert
         assertTrue(result);
     }
 
     @Test
     void isUsernameTaken_存在しないユーザー名の場合_falseを返す() {
-        // Arrange
+
         when(userRepository.existsByUsername("junya")).thenReturn(false);
 
-        // Act
         boolean result = userService.isUsernameTaken("junya");
 
-        // Assert
         assertFalse(result);
     }
 }
