@@ -26,7 +26,7 @@ import java.io.IOException;
 public class UARejectFilter implements Filter {
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
             throws IOException, ServletException {
 
         HttpServletRequest request = (HttpServletRequest) req;
@@ -40,6 +40,6 @@ public class UARejectFilter implements Filter {
             return; // ★ 即時拒否（ログもセッションも作らない）
         }
 
-        chain.doFilter(req, res);
+        filterChain.doFilter(req, res);
     }
 }

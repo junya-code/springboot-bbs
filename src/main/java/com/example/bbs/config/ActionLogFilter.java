@@ -29,7 +29,7 @@ public class ActionLogFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
             throws IOException, ServletException {
 
         HttpServletRequest request = (HttpServletRequest) req;
@@ -37,12 +37,12 @@ public class ActionLogFilter implements Filter {
 
         // 静的ファイル・OPTIONS・エラー はログ対象外
         if (StaticPathUtil.shouldSkip(request)) {
-            chain.doFilter(request, response);
+            filterChain.doFilter(request, response);
             return;
         }
 
         // まず後続処理
-        chain.doFilter(request, response);
+        filterChain.doFilter(request, response);
 
         // BrowserSessionFilter がセットした UUID を取得
         String sessionUuid = (String) request.getAttribute(CookieConfig.BROWSER_SESSION_COOKIE_NAME);

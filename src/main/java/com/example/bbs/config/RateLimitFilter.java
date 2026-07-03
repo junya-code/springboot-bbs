@@ -42,7 +42,7 @@ public class RateLimitFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
             throws IOException, ServletException {
 
         // Servlet API の Filter は歴史的に「HTTP 以外のプロトコルも扱える」設計のため、
@@ -63,7 +63,7 @@ public class RateLimitFilter implements Filter {
 
         // 静的ファイル・OPTIONS・エラー はログ対象外
         if (StaticPathUtil.shouldSkip(request)) {
-            chain.doFilter(request, response);
+            filterChain.doFilter(request, response);
             return;
         }
 
@@ -124,7 +124,7 @@ public class RateLimitFilter implements Filter {
         }
 
         // 通常処理
-        chain.doFilter(req, res);
+        filterChain.doFilter(req, res);
     }
 
     // カウンタ構造体
