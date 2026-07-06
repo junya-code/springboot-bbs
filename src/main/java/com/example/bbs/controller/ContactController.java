@@ -129,7 +129,7 @@ public class ContactController {
         // 連打・二重送信ガード PRGパターン用 (PRGとはフォーム送信後に 直接 View を返さず、 Redirect を挟む設計。)
         // ※ 現在はフロント側で submit ボタンを即時 disable しているため、
         // 通常の利用ではここに到達しない（連打による二重送信が発生しない）。
-        // ただし URL 直打ちや BOT など、画面を経由しないアクセスに対する
+        // ただし BOT など、画面を経由しないアクセスに対する
         // 最終的な保険として残している。
         if (spamCheckService.isLocked(sessionId)) {
             log.info("Request locked: sessionId={}", sessionId);
