@@ -103,6 +103,15 @@ public class RateLimitFilter implements Filter {
         // レート制限カウンタ更新
         RequestCounter counter = requestCounters.computeIfAbsent(key, k -> new RequestCounter());
         synchronized (counter) {
+            // put/remove は同期化不要
+            // ConcurrentHashMap は内部で synchronized や CAS を駆使し、
+            // メソッド単位で「スレッドセーフであること」を保証（設計）しているため。
+
+            // i++ (RequestCounter.count) には同期化が必要
+            // Map は「オブジェクトの参照」を安全に管理するだけで、
+            // その内部にある「ただの int 変数」の操作までは感知・保護できないため。
+            // したがって、Map から取得したオブジェクト内のデータ更新は、
+            // 呼び出し側（プログラマ）の責任で排他制御（synchronized 等）を行う必要がある。
             if (now - counter.timestamp < RateLimitConfig.WINDOW_MS) {
                 counter.count++;
             } else {
