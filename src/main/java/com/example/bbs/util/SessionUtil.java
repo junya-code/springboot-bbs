@@ -8,7 +8,6 @@ import com.example.bbs.model.UserSession;
 public final class SessionUtil {
 
     private SessionUtil() {
-        // インスタンス化禁止（ユーティリティクラス）
     }
 
     private static final int LAST_SEEN_UPDATE_THRESHOLD_MINUTES = 1;

@@ -14,7 +14,7 @@ import java.util.Base64;
  * signature は Base64URL（padding なし）でエンコードされるため、
  * Cookie や URL に安全に載せられる。
  */
-public class CookieSigner {
+public final class CookieSigner {
 
     private final byte[] secret;
 

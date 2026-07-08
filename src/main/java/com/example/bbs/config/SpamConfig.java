@@ -1,6 +1,9 @@
 package com.example.bbs.config;
 
-public class SpamConfig {
+public final class SpamConfig {
+
+    private SpamConfig() {
+    }
 
     // クールダウン時間（時間）
     public static final int CREATE_POST_COOLDOWN_HOURS = 1;

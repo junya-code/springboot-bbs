@@ -1,6 +1,9 @@
 package com.example.bbs.config;
 
-public class RateLimitConfig {
+public final class RateLimitConfig {
+
+    private RateLimitConfig() {
+    }
 
     // 1秒あたりの許可リクエスト数（人間）
     public static final int HUMAN_REQUESTS_PER_SECOND = 7;

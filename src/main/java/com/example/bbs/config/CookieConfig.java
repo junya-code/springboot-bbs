@@ -2,7 +2,11 @@ package com.example.bbs.config;
 
 import java.time.Duration;
 
-public class CookieConfig {
+public final class CookieConfig {
+
+    private CookieConfig() {
+    }
+
     /** ブラウザ識別用 Cookie の名前 */
     public static final String BROWSER_SESSION_COOKIE_NAME = "BROWSER_SESSION_ID";
 

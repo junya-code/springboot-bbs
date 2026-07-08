@@ -6,7 +6,7 @@ import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
-public class CookieSignatureValidator {
+public final class CookieSignatureValidator {
 
     private final byte[] secret;
 

@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 public final class CookieUtil {
 
     private CookieUtil() {
-        // インスタンス化禁止（ユーティリティクラス）
     }
 
     /**

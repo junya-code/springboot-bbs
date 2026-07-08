@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 public final class StaticPathUtil {
 
     private StaticPathUtil() {
-        // インスタンス化禁止（ユーティリティクラス）
     }
 
     public static boolean isStaticPath(String path) {

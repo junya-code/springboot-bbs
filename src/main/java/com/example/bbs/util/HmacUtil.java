@@ -22,7 +22,6 @@ import javax.crypto.spec.SecretKeySpec;
 public final class HmacUtil {
 
     private HmacUtil() {
-        // インスタンス化禁止（ユーティリティクラス）
     }
 
     /**
