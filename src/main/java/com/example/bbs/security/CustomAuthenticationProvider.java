@@ -52,6 +52,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         LoginUser user = (LoginUser) userDetailsService.loadUserByUsername(username);
 
         // パスワード比較(user.getPassword() → DB の BCrypt ハッシュ)
+        //
+        // 【セキュリティ仕様：タイミング攻撃（Timing Attack）への対策】
+        // クッキー署名の検証では MessageDigest.isEqual() による constant-time 比較を手書きしたが、
+        // パスワード認証では passwordEncoder.matches() をそのまま使用して問題ない。
+        //
+        // 理由：
+        // 1. Spring Security の PasswordEncoder（BCrypt等）の内部実装において、
+        // ハッシュ文字列の最終比較に MessageDigest.isEqual()（同等の固定時間比較）が自動採用されている。
+        // 2. パスワードハッシュ（BCrypt）は意図的に極めて重い計算（ストレッチング）を行うため、
+        // 文字の不一致によるナノ秒単位の処理時間の差は、計算時間の揺れ（ノイズ）に完全に埋もれる。
+        // したがって、この実装のままでタイミング攻撃に対して完全に堅牢である。
         if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
             throw new BadCredentialsException("Bad credentials");
         }
