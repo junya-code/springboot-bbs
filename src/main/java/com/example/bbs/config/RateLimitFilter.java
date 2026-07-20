@@ -137,6 +137,9 @@ public class RateLimitFilter implements Filter {
     }
 
     // カウンタ構造体
+    // 外囲クラス(RateLimitFilter)への暗黙の参照を保持させず、
+    // GC負荷を軽減するために static ネストクラスとして定義
+    // ※ static の有無でプログラムの実行結果自体に違いはありません。
     private static class RequestCounter {
         long timestamp = Instant.now().toEpochMilli();
         int count = 0;
