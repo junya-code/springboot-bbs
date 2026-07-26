@@ -32,7 +32,7 @@
             name="email"
             id="email"
             class="form-control"
-            placeholder="例: example@gmail.com"
+            th:placeholder="#{contact.form.email.label}"
             th:field="*{email}"
           />
           <div th:errors="*{email}" class="text-danger"></div>
