@@ -97,6 +97,11 @@ public class PostController {
         return "posts/terms";
     }
 
+    @GetMapping("/junya-code")
+    public String junyaCode() {
+        return "posts/junya-code";
+    }
+
     @GetMapping("/{id}")
     public String viewPost(@PathVariable Long id,
             @RequestParam(defaultValue = "0") int page,

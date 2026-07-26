@@ -55,7 +55,7 @@ public class SecurityConfig {
                 http
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers("/", "/auth/register", "/contact/**",
-                                                                "/posts/privacy", "/posts/terms",
+                                                                "/posts/privacy", "/posts/terms", "/posts/junya-code",
                                                                 "/css/**", "/js/**", "/images/**", "/favicon.ico",
                                                                 "/error/**", "/robots.txt", "/sitemap.xml")
                                                 .permitAll()

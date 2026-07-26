@@ -10,8 +10,4 @@ public class HomeController {
         return "home/home";
     }
 
-    @GetMapping("/error/junya-code")
-    public String junyaCode() {
-        return "error/junya-code";
-    }
 }
